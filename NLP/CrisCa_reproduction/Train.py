@@ -5,7 +5,9 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
+from sklearn.model_selection import train_test_split
 from joblib import dump
+from os.path import join
 
 
 def train_svc(path_to_corpus, path_to_gt, path_to_save_model):
@@ -39,14 +41,19 @@ def train_svc(path_to_corpus, path_to_gt, path_to_save_model):
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(stemmed_corpus)
     X = X.toarray()
+    X_train, X_test, Y_train, Y_test = train_test_split(X, true_y, test_size=0.2, random_state=7)
     # Fit classifier
     print("Starting the training")
     clf = LinearSVC(verbose=1, random_state=7, tol=1e-5)
-    clf.fit(X, true_y)
+    clf.fit(X_train, Y_train)
 
     if path_to_save_model:
         # save model with dump. Load it with joblib.load
-        dump(clf, path_to_save_model)
+        dump(clf, join(path_to_save_model, "svc_crisca.joblib"))
+        np.savetxt(join(path_to_save_model, "train_data.csv"), X_train, delimiter=",")
+        np.savetxt(join(path_to_save_model, "train_truth.csv"), Y_train, delimiter=",")
+        np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
+        np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
 
 
 if __name__ == "__main__":

@@ -25,8 +25,12 @@ def parse_corpus_and_gt(file, truth):
             n = 0
             for line in f.readlines():
                 line = line.split(":::")
-                ground_truth[line[0]] = line[1]
-
+                if "FAVOR" in line[1]:
+                    ground_truth[line[0]] = 0
+                elif "NEUTRAL" in line[1]:
+                    ground_truth[line[0]] = 1
+                elif "AGAINST" in line[1]:
+                    ground_truth[line[0]] = 2
         return corpus, ground_truth
     return corpus, None
 # Interesante: la suma de los dos corpus es 9121, pero al juntarlos y hacer diccionarios queda 9097
