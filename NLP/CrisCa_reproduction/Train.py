@@ -36,22 +36,19 @@ def preprocess(corpus, ground_truth):
         stemmed_corpus.append(stemmed_text)
         # Append Ground truth
         true_y.append(ground_truth[identifier])
+    # Split train and test
+    X_train, X_test, Y_train, Y_test = train_test_split(stemmed_corpus, true_y, test_size=0.2, random_state=7)
     # Vectorize the text
     vectorizer = TfidfVectorizer()
-    X = vectorizer.fit_transform(stemmed_corpus)
-    return X.toarray(), true_y
+    X_train = vectorizer.fit_transform(X_train)
+    X_test = vectorizer.transform(X_test)
+    return X_train.toarray(), X_test.toarray(), Y_train, Y_test
 
-def train_svc(path_to_corpus_es, path_to_corpus_ca, path_to_gt_es,
-              path_to_gt_ca, path_to_save_model):
-    corpus_es, ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
-    corpus_ca, ground_truth_ca = parse_corpus_and_gt(path_to_corpus_ca, path_to_gt_ca)
-    corpus = deepcopy(corpus_es)
-    corpus.update(corpus_ca)
-    ground_truth = deepcopy(ground_truth_es)
-    ground_truth.update(ground_truth_ca)
-    X, true_y = preprocess(corpus, ground_truth)
+def train_svc(path_to_corpus, path_to_gt, path_to_save_model):
+    corpus, ground_truth = parse_corpus_and_gt(path_to_corpus, path_to_gt)
+    X_train, X_test, Y_train, Y_test = preprocess(corpus, ground_truth)
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, true_y, test_size=0.2, random_state=7)
+
     # Fit classifier
     print("Starting the training")
     clf = LinearSVC(verbose=1, random_state=7, tol=1e-5)
@@ -66,16 +63,12 @@ def train_svc(path_to_corpus_es, path_to_corpus_ca, path_to_gt_es,
         np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
 
-        # Save
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("path_es", help="Path to es.xml")
-    parser.add_argument("path_ca", help="Path to ca.xml")
-    parser.add_argument("--truth_es", help="Path to spanish ground truth")
-    parser.add_argument("--truth_ca", help="Path to catalan ground truth")
+    parser.add_argument("path", help="Path to all.xml")
+    parser.add_argument("--truth", help="Path to ground truth")
     parser.add_argument("--save", help="Path to save model")
 
     args = parser.parse_args()
-    train_svc(args.path_es, args.path_ca, args.truth_es, args.truth_ca, args.save)
+    train_svc(args.path, args.truth, args.save)

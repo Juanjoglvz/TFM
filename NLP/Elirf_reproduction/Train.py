@@ -1,8 +1,8 @@
-from NLP.CrisCa_reproduction.Parse_xml import parse_corpus_and_gt
+from NLP.Elirf_reproduction.Parse_xml import parse_corpus_and_gt
 import argparse
 import numpy as np
 from NLP.Elirf_reproduction.TweetMotifTokenizer import tokenize
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from joblib import dump
@@ -46,7 +46,7 @@ def preprocess(corpus, ground_truth):
     # Split train and test
     X_train, X_test, Y_train, Y_test = train_test_split(preprocessed_corpus, true_y, test_size=0.2, random_state=7)
     # Vectorize the text
-    vectorizer = CountVectorizer(ngram_range=(1,4))
+    vectorizer = TfidfVectorizer(ngram_range=(1,4))
     X_train = vectorizer.fit_transform(X_train)
     X_test = vectorizer.transform(X_test)
     return X_train.toarray(), X_test.toarray(), Y_train, Y_test
