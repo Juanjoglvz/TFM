@@ -2,85 +2,16 @@ import argparse
 from os.path import join
 import numpy as np
 from joblib import dump
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
-from sklearn.model_selection import StratifiedShuffleSplit
-from NLP.system.Neutrals.TweetMotifTokenizer import tokenize
+from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle
 from NLP.system.Neutrals.Parse_xml import parse_corpus_and_gt
 from NLP.system.Graphics import barplot
 
 
-def is_exception(ch):
-    if ch[0] == "#" or ch[0] == "@":
-        return True
-    else:
-        return False
+def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sentiments):
+    if path_to_sentiments:
+        load_kaggle(path_to_sentiments)
 
-
-def preprocess(corpus, ground_truth):
-    preprocessed_corpus = []
-    true_y = []
-    n_hashtags_total = []
-    n_mentions_total = []
-
-    for identifier, doc in corpus.items():
-        n_hashtags = 0
-        n_mentions = 0
-        # doc = corpus["af9f7be8eddca053f705decaf6b12805"]
-        # tokenize the tweet into words
-        tokens = tokenize(doc)
-        # convert to lowercase
-        tokens = [w.lower() for w in tokens]
-        # Normalize Twitter-specific tokens
-        new_tokens = []
-        for token in tokens:
-            if "http" in token:
-                new_tokens.append("url")
-            elif "#" in token:
-                n_hashtags += 1
-            elif "@" in token:
-                n_mentions += 1
-            new_tokens.append(token)
-        tokens = new_tokens
-        # remove punctuation
-        tokens = [w for w in tokens if w.isalnum() or is_exception(w)]
-        preprocessed_text = ""
-        for t in tokens:
-            preprocessed_text += t + " "
-        preprocessed_corpus.append(preprocessed_text)
-        # Append Ground truth
-        true_y.append(ground_truth[identifier])
-        # Append n_hashtags and n_mentions
-        n_hashtags_total.append(n_hashtags)
-        n_mentions_total.append(n_mentions)
-
-
-    # Split train and test
-    preprocessed_corpus = np.array(preprocessed_corpus)
-    true_y = np.array(true_y)
-    n_mentions_total = np.array(n_mentions_total)
-    n_hashtags_total = np.array(n_hashtags_total)
-    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=7)
-    for train_index, test_index in splitter.split(preprocessed_corpus, true_y):
-        X_train, X_test = preprocessed_corpus[train_index], preprocessed_corpus[test_index]
-        Y_train, Y_test = true_y[train_index], true_y[test_index]
-        n_mentions_total_train, n_mentions_total_test = n_mentions_total[train_index], n_mentions_total[test_index]
-        n_hashtags_total_train, n_hashtags_total_test = n_hashtags_total[train_index], n_hashtags_total[test_index]
-
-    # Vectorize the text
-    vectorizer = TfidfVectorizer()
-    X_train = vectorizer.fit_transform(X_train).toarray()
-    X_test = vectorizer.transform(X_test).toarray()
-
-    # Add extra features
-    X_train = np.c_[X_train, n_hashtags_total_train, n_mentions_total_train]
-    X_test = np.c_[X_test, n_hashtags_total_test, n_mentions_total_test]
-
-    return X_train, X_test, Y_train, Y_test, true_y
-
-
-def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model):
     corpus_es, ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
     X_train, X_test, Y_train, Y_test, true_y = preprocess(corpus_es, ground_truth_es)
 
@@ -107,6 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("path_es", help="Path to es.xml")
     parser.add_argument("--truth_es", help="Path to spanish ground truth")
     parser.add_argument("--save", help="Path to save model")
+    parser.add_argument("--senti", help="Path to sentiment datasets")
 
     args = parser.parse_args()
-    train_svc(args.path_es, args.truth_es, args.save)
+    train_svc(args.path_es, args.truth_es, args.save, args.senti)

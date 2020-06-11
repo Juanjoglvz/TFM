@@ -2,8 +2,6 @@ import argparse
 import numpy as np
 from joblib import load
 from sklearn.metrics import precision_score, f1_score, confusion_matrix
-from NLP.system.Neutrals.Train import preprocess
-from NLP.system.Neutrals.Parse_xml import parse_corpus_and_gt
 
 
 def evaluate_svc(path_to_corpus, path_to_gt, path_to_model):
