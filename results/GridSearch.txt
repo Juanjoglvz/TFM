@@ -1,0 +1,38 @@
+Logistic Regression
+Logistic Regression f1_macro score: 0.9995881549842713
+Best params:
+C: 54.5559478116852
+Linear SVM
+Linear SVM f1_macro score: 0.9995881549842713
+Best params:
+C: 2.976351441631313
+kNN
+kNN f1_macro score: 0.7890954829226766
+Best params:
+n_neighbors: 3
+Random Forest {'max_depth': (1, 2, 3), 'n_estimators': array([100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200])}
+Random Forest f1_macro score: 0.43860759493670887
+Best params:
+max_depth: 1
+n_estimators: 100
+
+Logistic Regression
+				Not neutral	Neutral
+Not neutral			638	55
+Neutral				85	109
+Macro F1: 0.7550342454944292
+Linear SVM
+				Not neutral	Neutral
+Not neutral			629	64
+Neutral				83	111
+Macro F1: 0.7484998408702948
+kNN
+				Not neutral	Neutral
+Not neutral			620	73
+Neutral				114	80
+Macro F1: 0.6650254761505668
+Random Forest
+				Not neutral	Neutral
+Not neutral			693	0
+Neutral				194	0
+Macro F1: 0.43860759493670887
