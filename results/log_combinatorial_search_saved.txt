@@ -1,0 +1,1073 @@
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			652	41
+Neutral				92	102
+Macro F1: 0.7563936572442176
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			646	47
+Neutral				95	99
+Macro F1: 0.7416646156370499
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 1.0 1.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			651	42
+Neutral				88	106
+Macro F1: 0.7645504590153223
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 1.0 3.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			652	41
+Neutral				89	105
+Macro F1: 0.7634957748789892
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 1.0 3.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			647	46
+Neutral				88	106
+Macro F1: 0.7594396139958874
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 1.0 3.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			647	46
+Neutral				91	103
+Macro F1: 0.7524229218491829
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 1.0 5.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			650	43
+Neutral				90	104
+Macro F1: 0.7585791962803871
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 1.0 5.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			647	46
+Neutral				91	103
+Macro F1: 0.7524229218491829
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 1.0 5.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			648	45
+Neutral				90	104
+Macro F1: 0.7560371857637933
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 3.0 1.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			651	42
+Neutral				92	102
+Macro F1: 0.7551177663133952
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 3.0 1.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			646	47
+Neutral				86	108
+Macro F1: 0.7627889207258834
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 3.0 1.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			644	49
+Neutral				87	107
+Macro F1: 0.7579614767255217
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 3.0 3.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			650	43
+Neutral				92	102
+Macro F1: 0.7538466282260801
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 3.0 3.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			644	49
+Neutral				91	103
+Macro F1: 0.748668253428539
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 3.0 3.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			644	49
+Neutral				85	109
+Macro F1: 0.7625423539189362
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 3.0 5.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			654	39
+Neutral				91	103
+Macro F1: 0.761345950062918
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 3.0 5.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			648	45
+Neutral				91	103
+Macro F1: 0.7536835571237217
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 3.0 5.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			643	50
+Neutral				87	107
+Macro F1: 0.7567055676683224
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 5.0 1.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			651	42
+Neutral				89	105
+Macro F1: 0.762209584306246
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 5.0 1.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			645	48
+Neutral				87	107
+Macro F1: 0.7592218368270246
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 5.0 1.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			642	51
+Neutral				88	106
+Macro F1: 0.7531538241306337
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 5.0 3.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			654	39
+Neutral				94	100
+Macro F1: 0.7541517923197312
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 5.0 3.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			653	40
+Neutral				87	107
+Macro F1: 0.7694703603579637
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 5.0 3.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			645	48
+Neutral				88	106
+Macro F1: 0.7569118666473215
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 1.0 5.0 5.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			649	44
+Neutral				89	105
+Macro F1: 0.7596514496784038
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 5.0 5.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			646	47
+Neutral				90	104
+Macro F1: 0.753513656048113
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 1.0 5.0 5.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			643	50
+Neutral				94	100
+Macro F1: 0.7403480240689544
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 1.0 1.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			652	41
+Neutral				88	106
+Macro F1: 0.7658399723321048
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 3.0 1.0 1.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			644	49
+Neutral				90	104
+Macro F1: 0.7510082416306352
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 1.0 1.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			645	48
+Neutral				87	107
+Macro F1: 0.7592218368270246
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 3.0 1.0 3.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			653	40
+Neutral				86	108
+Macro F1: 0.7717950602763893
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 3.0 1.0 3.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			648	45
+Neutral				85	109
+Macro F1: 0.7676363431187632
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 3.0 1.0 3.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			645	48
+Neutral				90	104
+Macro F1: 0.7522587069509885
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 1.0 5.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+C:\Users\03953138\AppData\Local\Continuum\anaconda3\envs\cajamar\lib\site-packages\sklearn\svm\_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  "the number of iterations.", ConvergenceWarning)
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			654	39
+Neutral				87	107
+Macro F1: 0.7707728279596358
+BaggingClassifier(base_estimator=LinearSVC(C=1.0, class_weight=None, dual=True,
+                                           fit_intercept=True,
+                                           intercept_scaling=1,
+                                           loss='squared_hinge',
+                                           max_iter=100000, multi_class='ovr',
+                                           penalty='l2', random_state=None,
+                                           tol=0.0001, verbose=0),
+                  bootstrap=True, bootstrap_features=False, max_features=1.0,
+                  max_samples=1.0, n_estimators=20, n_jobs=None,
+                  oob_score=False, random_state=None, verbose=0,
+                  warm_start=False)
+1.0 1.0 1.0 1.0 3.0 1.0 5.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				81	113
+Macro F1: 0.7565673511039643
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			626	67
+Neutral				80	114
+Macro F1: 0.7514624731951394
+Bagging
+				Not neutral	Neutral
+Not neutral			647	46
+Neutral				90	104
+Macro F1: 0.7547731338429013
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 1.0 5.0 5.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			631	62
+Neutral				81	113
+Macro F1: 0.7553433826153209
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			623	70
+Neutral				80	114
+Macro F1: 0.7478623732205394
+Bagging
+				Not neutral	Neutral
+Not neutral			647	46
+Neutral				91	103
+Macro F1: 0.7524229218491829
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 3.0 1.0 1.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+SVM 2.97
+				Not neutral	Neutral
+Not neutral			632	61
+Neutral				80	114
+Macro F1: 0.7587651534878338
+Bagging
+				Not neutral	Neutral
+Not neutral			648	45
+Neutral				94	100
+Macro F1: 0.7465531949883342
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+1.0 1.0 1.0 1.0 3.0 3.0 1.0 3.0
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing

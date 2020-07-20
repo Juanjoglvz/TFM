@@ -32,6 +32,8 @@ def parse_corpus_and_gt(file, truth):
 
     if with_truth:
         ground_truth = {}
+        ground_truth_neutrals = {}
+        total_ground_truth = {}
         with open(truth, "r") as f:
             n = 0
             for line in f.readlines():
@@ -39,11 +41,16 @@ def parse_corpus_and_gt(file, truth):
                 # Favor and against same class as we are interested in N/not N
                 if "FAVOR" in line[1]:
                     ground_truth[line[0]] = 0
+                    ground_truth_neutrals[line[0]] = 0
+                    total_ground_truth[line[0]] = 0
                 elif "NEUTRAL" in line[1]:
-                    ground_truth[line[0]] = 1
+                    ground_truth_neutrals[line[0]] = 1
+                    total_ground_truth[line[0]] = 1
                 elif "AGAINST" in line[1]:
-                    ground_truth[line[0]] = 0
-        return corpus, ground_truth
+                    ground_truth[line[0]] = 2
+                    ground_truth_neutrals[line[0]] = 0
+                    total_ground_truth[line[0]] = 2
+        return corpus, ground_truth, ground_truth_neutrals, total_ground_truth
     return corpus, None
 
 

@@ -1,0 +1,15 @@
+SVM 1
+				Favor	Against
+Favor			262	65
+Against				42	312
+Macro F1: 0.8420265316165902
+SVM 2.97
+				Favor	Against
+Favor			264	63
+Against				49	305
+Macro F1: 0.8349376731301938
+Bagging
+				Favor	Against
+Favor			263	64
+Against				46	308
+Macro F1: 0.8377644368210406

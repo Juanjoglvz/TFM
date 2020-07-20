@@ -1,0 +1,18 @@
+SVM 1
+				Favor	Neutral	Against
+Favor			260	9	67
+Neutral				13	168	13
+Against				61	7	289
+Macro F1: 0.8203838475208896
+SVM 2.97
+				Favor	Neutral	Against
+Favor			260	9	67
+Neutral				14	168	12
+Against				71	7	279
+Macro F1: 0.8109638118448691
+Bagging
+				Favor	Neutral	Against
+Favor			265	9	62
+Neutral				12	168	14
+Against				59	7	291
+Macro F1: 0.8271489227980942

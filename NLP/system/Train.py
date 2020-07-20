@@ -2,7 +2,7 @@ import argparse
 from os.path import join
 
 import numpy as np
-from joblib import dump
+from joblib import dump, load
 from numpy import loadtxt
 from sklearn.ensemble import BaggingClassifier
 from sklearn.metrics import f1_score, confusion_matrix
@@ -11,17 +11,22 @@ from sklearn.svm import LinearSVC
 from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle, load_ml_senticon
 from NLP.system.Parse_xml import parse_corpus_and_gt, parse_ml_senticon
 
-
 def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sentiments, weights,
-              x_train_path, y_train_path, x_test_path, y_test_path):
+              x_train_path, y_train_path, x_test_path, y_test_path, path_to_neutrals, path_to_vocabulary):
+
     if path_to_corpus_es and path_to_gt_es:
         if path_to_sentiments:
             load_kaggle(path_to_sentiments)
             ml_senticon = parse_ml_senticon(path_to_sentiments)
             load_ml_senticon(ml_senticon)
 
-        corpus_es, _, ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
-        X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, ground_truth_es, weights, None)
+        corpus_es, ground_truth_es, ground_truth_es_neutrals, total_ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
+        #X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, ground_truth_es, weights,
+        #                                                                   path_to_vocabulary)
+        X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, total_ground_truth_es, weights,
+                                                                           path_to_vocabulary)
+
+
     elif x_train_path and y_train_path:
         print("Reading data from {}".format(x_train_path))
         X_train = loadtxt(x_train_path, dtype=float, delimiter=',')
@@ -29,7 +34,10 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
         X_test = loadtxt(x_test_path, dtype=float, delimiter=',')
         Y_test = loadtxt(y_test_path, dtype=float, delimiter=',')
 
-    #barplot(true_y, ["Not Neutral", "Neutral"], join(path_to_save_model, "Class_dist"))
+    if path_to_neutrals:
+        clf_neutrals = load(path_to_neutrals)
+
+
     retval = []
 
     # Train various classifiers with best params
@@ -47,15 +55,25 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
     for name, clf in zip(names, classifiers):
         print(name)
         current = {}
-        clf.fit(X_train, Y_train)
 
+        Y_train_polar = Y_train[Y_train != 1]
+        X_train_polar = X_train[Y_train != 1, :]
+        clf.fit(X_train_polar, Y_train_polar)
+
+        neutrals_predict = clf_neutrals.predict(X_test)
+        #X_test = X_test[neutrals_predict == 0, :]
+        #Y_test = Y_test[neutrals_predict == 0]
         Y_pred = clf.predict(X_test)
-        cm = confusion_matrix(Y_test, Y_pred)
-        print("\t\t\t\tNot neutral\tNeutral")
-        print("Not neutral\t\t\t{}\t{}".format(cm[0, 0], cm[0, 1]))
-        print("Neutral\t\t\t\t{}\t{}".format(cm[1, 0], cm[1, 1]))
 
-        score = f1_score(Y_test, Y_pred, labels=[0, 1], average="macro")
+        Y_pred[neutrals_predict == 1] = 1
+
+        cm = confusion_matrix(Y_test, Y_pred, labels=[0,1,2])
+        print("\t\t\t\tFavor\tNeutral\tAgainst")
+        print("Favor\t\t\t{}\t{}\t{}".format(cm[0, 0], cm[0, 1], cm[0, 2]))
+        print("Neutral\t\t\t\t{}\t{}\t{}".format(cm[1, 0], cm[1, 1], cm[1, 2]))
+        print("Against\t\t\t\t{}\t{}\t{}".format(cm[2, 0], cm[2, 1], cm[2, 2]))
+
+        score = f1_score(Y_test, Y_pred, labels=[0, 1, 2], average="macro")
         print("Macro F1: {}".format(score))
         if score > best_f1:
             best_clf = clf
@@ -74,17 +92,11 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
     if path_to_save_model:
         print("saving model and data")
         # save model with dump. Load it with joblib.load
-        dump(best_clf, join(path_to_save_model, "clf_neutrals.joblib"))
+        dump(best_clf, join(path_to_save_model, "clf.joblib"))
         np.savetxt(join(path_to_save_model, "train_data.csv"), X_train, delimiter=",")
         np.savetxt(join(path_to_save_model, "train_truth.csv"), Y_train, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
-        if vocabulary:
-            for i in range(len(vocabulary)):
-                with open(join(path_to_save_model, "vocabulary{}.csv".format(i)), "w+") as f:
-                    for key in vocabulary[i].keys():
-                        f.write("{}, {}\n".format(key, vocabulary[i][key]))
-
         print("Saved")
 
     return retval
@@ -100,6 +112,8 @@ if __name__ == "__main__":
     parser.add_argument("--y_train", help="Path to Y_train in case we want to use presaved data")
     parser.add_argument("--x_test", help="Path to X_test in case we want to use presaved data")
     parser.add_argument("--y_test", help="Path to Y_test in case we want to use presaved data")
+    parser.add_argument("--neutrals", help="Path to neutrals model")
+    parser.add_argument("--vocabulary", help="Path to vocabulary for neutrals preprocessing")
 
     args = parser.parse_args()
-    train_svc(args.path_es, args.truth_es, args.save, args.senti, None, args.x_train, args.y_train, args.x_test, args.y_test)
+    train_svc(args.path_es, args.truth_es, args.save, args.senti, None, args.x_train, args.y_train, args.x_test, args.y_test, args.neutrals, args.vocabulary)
