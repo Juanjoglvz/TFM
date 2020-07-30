@@ -19,10 +19,14 @@ def parse_corpus_and_gt(file, truth):
         prev = doc.find("prev")
 
         final_text = ""
-        final_text = prev.text
-        final_text += text.text
-        final_text += text.text
-        final_text += next.text
+        if prev.text is not None:
+            pass
+            #final_text += prev.text + " "
+        final_text += text.text + " "
+        #final_text += text.text + " "
+        if next.text is not None:
+            #final_text += next.text
+            pass
 
         corpus[id] = final_text
 

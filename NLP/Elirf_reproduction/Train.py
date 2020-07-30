@@ -7,7 +7,6 @@ from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from joblib import dump
 from os.path import join
-from copy import deepcopy
 
 
 def preprocess(corpus, ground_truth):
@@ -49,12 +48,12 @@ def preprocess(corpus, ground_truth):
     vectorizer = TfidfVectorizer(ngram_range=(1,4))
     X_train = vectorizer.fit_transform(X_train)
     X_test = vectorizer.transform(X_test)
-    return X_train.toarray(), X_test.toarray(), Y_train, Y_test
+    return X_train.toarray(), X_test.toarray(), Y_train, Y_test, vectorizer.vocabulary_
 
 
 def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model):
     corpus_es, ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
-    X_train, X_test, Y_train, Y_test = preprocess(corpus_es, ground_truth_es)
+    X_train, X_test, Y_train, Y_test, vocabulary = preprocess(corpus_es, ground_truth_es)
 
     # Fit classifier
     print("Starting the training")
@@ -69,6 +68,9 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model):
         np.savetxt(join(path_to_save_model, "train_truth.csv"), Y_train, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
+        with open(join(path_to_save_model, "vocabulary.txt"), "w+") as f:
+            for key in vocabulary.keys():
+                f.write("{}, {}\n".format(key, vocabulary[key]))
         print("Saved")
 
 

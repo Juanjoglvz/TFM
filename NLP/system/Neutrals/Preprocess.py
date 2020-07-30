@@ -38,6 +38,7 @@ def load_kaggle(path):
 def load_ml_senticon(ml_senticon):
     global senticon
     senticon = ml_senticon
+    return ml_senticon
 
 
 def is_polarized_kaggle(word):

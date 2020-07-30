@@ -42,11 +42,11 @@ def preprocess(corpus, ground_truth):
     vectorizer = TfidfVectorizer()
     X_train = vectorizer.fit_transform(X_train)
     X_test = vectorizer.transform(X_test)
-    return X_train.toarray(), X_test.toarray(), Y_train, Y_test
+    return X_train.toarray(), X_test.toarray(), Y_train, Y_test, vectorizer.vocabulary_
 
 def train_svc(path_to_corpus, path_to_gt, path_to_save_model):
     corpus, ground_truth = parse_corpus_and_gt(path_to_corpus, path_to_gt)
-    X_train, X_test, Y_train, Y_test = preprocess(corpus, ground_truth)
+    X_train, X_test, Y_train, Y_test, vocabulary = preprocess(corpus, ground_truth)
 
 
     # Fit classifier
@@ -62,6 +62,9 @@ def train_svc(path_to_corpus, path_to_gt, path_to_save_model):
         np.savetxt(join(path_to_save_model, "train_truth.csv"), Y_train, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
         np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
+        with open(join(path_to_save_model, "vocabulary.txt"), "w+") as f:
+            for key in vocabulary.keys():
+                f.write("{}, {}\n".format(key, vocabulary[key]))
 
 
 if __name__ == "__main__":
