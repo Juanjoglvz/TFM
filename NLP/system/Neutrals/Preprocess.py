@@ -32,7 +32,7 @@ def load_kaggle(path):
     with open(join(path, "negative_words_es.txt"), "r") as f:
         for line in f.readlines():
             negative_words_es.append(line.rstrip())
-    # Catalan words
+    return positive_words_es, negative_words_es
 
 
 def load_ml_senticon(ml_senticon):
@@ -50,6 +50,7 @@ def is_polarized_kaggle(word):
         return -1
     else:
         return 0
+
 
 def get_factor_ml_senticon(word):
     global senticon
@@ -186,7 +187,7 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     n_positive_words_total = np.array(n_positive_words_total)
 
     # Split train and test
-    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=7)
+    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
     for train_index, test_index in splitter.split(preprocessed_corpus, true_y):
         # Data
         X_train, X_test = preprocessed_corpus[train_index], preprocessed_corpus[test_index]
@@ -214,25 +215,30 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         vocabulary2 = None
         vocabulary3 = None
     total_vocabulary = []
+    total_idf = []
     vectorizer = TfidfVectorizer(vocabulary=vocabulary0)
     X_train = vectorizer.fit_transform(X_train).toarray()
     X_test = vectorizer.transform(X_test).toarray()
     total_vocabulary.append(vectorizer.vocabulary_)
+    total_idf.append(vectorizer.idf_)
 
     vectorizer = TfidfVectorizer(vocabulary=vocabulary1)
     X_hashtags_train = vectorizer.fit_transform(X_hashtags_train).toarray()
     X_hashtags_test = vectorizer.transform(X_hashtags_test).toarray()
     total_vocabulary.append(vectorizer.vocabulary_)
+    total_idf.append(vectorizer.idf_)
 
     vectorizer = TfidfVectorizer(vocabulary=vocabulary2)
     X_mentions_train = vectorizer.fit_transform(X_mentions_train).toarray()
     X_mentions_test = vectorizer.transform(X_mentions_test).toarray()
     total_vocabulary.append(vectorizer.vocabulary_)
+    total_idf.append(vectorizer.idf_)
 
     vectorizer2 = CountVectorizer(vocabulary=vocabulary3)
     X_sents_train = vectorizer2.fit_transform(X_sents_train).toarray()
     X_sents_test = vectorizer2.transform(X_sents_test).toarray()
     total_vocabulary.append(vectorizer2.vocabulary_)
+    
 
     # Add sentiment factor
     for word, column in vectorizer2.vocabulary_.items():
@@ -276,4 +282,4 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     X_test = np.c_[X_test, n_hashtags_total_test, n_mentions_total_test,
                    n_positive_words_total_test, n_negative_words_total_test]
 
-    return X_train, X_test, Y_train, Y_test, true_y, total_vocabulary
+    return X_train, X_test, Y_train, Y_test, true_y, total_vocabulary, total_idf

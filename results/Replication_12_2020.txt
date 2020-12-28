@@ -1,0 +1,37 @@
+train neutrals model:
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Not neutral	Neutral
+Not neutral			635	58
+Neutral				81	113
+Macro F1: 0.7602632781434419
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+saving model and data
+Saved
+
+train polar model:
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Starting the training
+SVM 1
+				Favor	Neutral	Against
+Favor				260	9	67
+Neutral				13	168	13
+Against				61	7	289
+Macro F1: 0.8203838475208896
+LinearSVC(C=1, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=100000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)
+saving model and data
+Saved
+

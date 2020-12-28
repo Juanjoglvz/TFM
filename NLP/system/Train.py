@@ -6,7 +6,7 @@ from joblib import dump, load
 from numpy import loadtxt
 from sklearn.ensemble import BaggingClassifier
 from sklearn.metrics import f1_score, confusion_matrix
-from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 
 from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle, load_ml_senticon
 from NLP.system.Parse_xml import parse_corpus_and_gt, parse_ml_senticon
@@ -23,7 +23,7 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
         corpus_es, ground_truth_es, ground_truth_es_neutrals, total_ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
         #X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, ground_truth_es, weights,
         #                                                                   path_to_vocabulary)
-        X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, total_ground_truth_es, weights,
+        X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, total_ground_truth_es, weights,
                                                                            path_to_vocabulary)
 
 
@@ -44,13 +44,9 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
     best_clf = None
     best_f1 = 0
     print("Starting the training")
-    names = ["SVM 1",
-             "SVM 2.97",
-             "Bagging"]
+    names = ["SVM 1"]
 
-    classifiers = [LinearSVC(C=1, max_iter=100000),
-                   LinearSVC(C=2.976351441631313, max_iter=100000),
-                   BaggingClassifier(base_estimator=LinearSVC(max_iter=100000), n_estimators=20)]
+    classifiers = [SVC(kernel="linear", C=1, max_iter=100000, probability=True)]
 
     for name, clf in zip(names, classifiers):
         print(name)
@@ -92,11 +88,21 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
     if path_to_save_model:
         print("saving model and data")
         # save model with dump. Load it with joblib.load
-        dump(best_clf, join(path_to_save_model, "clf.joblib"))
-        np.savetxt(join(path_to_save_model, "train_data.csv"), X_train, delimiter=",")
-        np.savetxt(join(path_to_save_model, "train_truth.csv"), Y_train, delimiter=",")
-        np.savetxt(join(path_to_save_model, "eval_data.csv"), X_test, delimiter=",")
-        np.savetxt(join(path_to_save_model, "eval_truth.csv"), Y_test, delimiter=",")
+        dump(best_clf, join(path_to_save_model, "polar", "clf.joblib"))
+        np.savetxt(join(path_to_save_model, "polar", "train_data.csv"), X_train, delimiter=",")
+        np.savetxt(join(path_to_save_model, "polar", "train_truth.csv"), Y_train, delimiter=",")
+        np.savetxt(join(path_to_save_model, "polar", "eval_data.csv"), X_test, delimiter=",")
+        np.savetxt(join(path_to_save_model, "polar", "eval_truth.csv"), Y_test, delimiter=",")
+        if vocabulary:
+            for i in range(len(vocabulary)):
+                with open(join(path_to_save_model, "polar", "vocabulary{}.csv".format(i)), "w+") as f:
+                    for key in vocabulary[i].keys():
+                        f.write("{}, {}\n".format(key, vocabulary[i][key]))
+        if idf:
+            for i in range(len(idf)):
+                with open(join(path_to_save_model, "polar", "idf{}.csv".format(i)), "w+") as f:
+                    for value in idf[i]:
+                        f.write("{}\n".format(value))
         print("Saved")
 
     return retval
