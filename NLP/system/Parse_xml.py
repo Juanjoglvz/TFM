@@ -50,6 +50,7 @@ def parse_corpus_and_gt(file, truth):
                     ground_truth[line[0]] = 2
                     ground_truth_neutrals[line[0]] = 0
                     total_ground_truth[line[0]] = 2
+
         return corpus, ground_truth, ground_truth_neutrals, total_ground_truth
     return corpus, None
 

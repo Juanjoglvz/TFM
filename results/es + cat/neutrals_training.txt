@@ -1,0 +1,10 @@
+Bagging
+				Not neutral	Neutral
+Not neutral			1493	37
+Neutral				167	123
+Macro F1: 0.7413584117032392
+BaggingClassifier(base_estimator=LinearSVC(max_iter=100000), n_estimators=20)
+saving model and data
+Saved
+
+Process finished with exit code 0

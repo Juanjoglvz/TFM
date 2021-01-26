@@ -59,14 +59,14 @@ def get_factor_ml_senticon(word):
 
 def load_vocabularies(path):
     retval = []
-    for i in range(4):
+    for i in range(3):
         voc = {}
         with open(join(path, "vocabulary{}.csv".format(i)), "r") as f:
             for line in f.readlines():
                 line = line.split(", ")
                 voc[line[0]] = int(line[1])
             retval.append(voc)
-    return retval[0], retval[1], retval[2], retval[3]
+    return retval[0], retval[1], retval[2]
 
 
 # Preprocess
@@ -76,8 +76,7 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     true_y = []
     hashtags_total = []
     mentions_total = []
-    sents_total = []
-    domains = []
+    sent_final_factors = []
     n_hashtags_total = []
     n_mentions_total = []
     n_positive_words_total = []
@@ -90,8 +89,10 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     if weights is None:
         weights = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 
-    for identifier, gt in ground_truth.items():
+    for item in ground_truth:
     #for identifier in ["e079379e7b64ca8b52e58d87bebd36f9", "6f510b6acc3fab195959d88db9ee34a5", "ad88732860e9e8f2f7533a9b331d9eb9", "80f85f7fd8e3858b774b9cafbb701ce1", "6696259fb7704bc2072b696adc10ea5f", "91d9d568b6f08af5264fbe52bc849f88"]:
+        identifier = list(item.keys())[0]
+        gt = item[identifier]
         doc = corpus[identifier]
         hashtags = []
         mentions = []
@@ -129,22 +130,18 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         # remove punctuation
         tokens = [w for w in tokens if w.isalnum() or is_exception(w)]
 
-
-
-        # Stemming
-        #stemmer = SnowballStemmer('spanish')
-        #tokens = [stemmer.stem(w) for w in tokens]
-
         # Lemmatizing
         new_tokens = []
         preprocessed_text = ""
+        factors = []
         for t in tokens:
             preprocessed_text += t + " "
         for l in lemmatizer(preprocessed_text):
             if l.lemma_ in senticon.keys():
-                sents.append(l.lemma_)
+                factors.append(float(senticon[l.lemma_]))
             new_tokens.append(l.lemma_)
         tokens = new_tokens
+        final_factor = sum(factors)
         # convert to text
         preprocessed_text = ""
         for t in tokens:
@@ -161,10 +158,13 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
             preprocessed_mentions_text += t + " "
         mentions_total.append(preprocessed_mentions_text)
 
-        preprocessed_sents_text = ""
-        for t in sents:
-            preprocessed_sents_text += t + " "
-        sents_total.append(preprocessed_sents_text)
+        # preprocessed_sents_text = ""
+        # for t in sents:
+        #     preprocessed_sents_text += t + " "
+        # sents_total.append(preprocessed_sents_text)
+        # Append sent factor features
+        sent_final_factors.append(final_factor)
+
         # Append Ground truth
         true_y.append(gt)
         # Append n_hashtags and n_mentions
@@ -179,7 +179,8 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     preprocessed_corpus = np.array(preprocessed_corpus)
     hashtags_total = np.array(hashtags_total)
     mentions_total = np.array(mentions_total)
-    sents_total = np.array(sents_total)
+    # sents_total = np.array(sents_total)
+    sent_final_factors = np.array(sent_final_factors)
     true_y = np.array(true_y)
     n_mentions_total = np.array(n_mentions_total)
     n_hashtags_total = np.array(n_hashtags_total)
@@ -193,12 +194,14 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         X_train, X_test = preprocessed_corpus[train_index], preprocessed_corpus[test_index]
         X_hashtags_train, X_hashtags_test = hashtags_total[train_index], hashtags_total[test_index]
         X_mentions_train, X_mentions_test = mentions_total[train_index], mentions_total[test_index]
-        X_sents_train, X_sents_test = sents_total[train_index], sents_total[test_index]
+        # X_sents_train, X_sents_test = sents_total[train_index], sents_total[test_index]
 
         # Ground truth
         Y_train, Y_test = true_y[train_index], true_y[test_index]
 
         # Extra features
+        sent_final_factors_train, sent_final_factors_test = sent_final_factors[train_index], \
+                                                            sent_final_factors[test_index]
         n_mentions_total_train, n_mentions_total_test = n_mentions_total[train_index], n_mentions_total[test_index]
         n_hashtags_total_train, n_hashtags_total_test = n_hashtags_total[train_index], n_hashtags_total[test_index]
         n_positive_words_total_train, n_positive_words_total_test = \
@@ -208,12 +211,11 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
 
     # Get BOW, BOH, BOM
     if path_to_vocabulary:
-        vocabulary0, vocabulary1, vocabulary2, vocabulary3 = load_vocabularies(path_to_vocabulary)
+        vocabulary0, vocabulary1, vocabulary2 = load_vocabularies(path_to_vocabulary)
     else:
         vocabulary0 = None
         vocabulary1 = None
         vocabulary2 = None
-        vocabulary3 = None
     total_vocabulary = []
     total_idf = []
     vectorizer = TfidfVectorizer(vocabulary=vocabulary0)
@@ -234,52 +236,30 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     total_vocabulary.append(vectorizer.vocabulary_)
     total_idf.append(vectorizer.idf_)
 
-    vectorizer2 = CountVectorizer(vocabulary=vocabulary3)
-    X_sents_train = vectorizer2.fit_transform(X_sents_train).toarray()
-    X_sents_test = vectorizer2.transform(X_sents_test).toarray()
-    total_vocabulary.append(vectorizer2.vocabulary_)
-    
+    # vectorizer2 = CountVectorizer(vocabulary=vocabulary3)
+    # X_sents_train = vectorizer2.fit_transform(X_sents_train).toarray()
+    # X_sents_test = vectorizer2.transform(X_sents_test).toarray()
+    # total_vocabulary.append(vectorizer2.vocabulary_)
+
 
     # Add sentiment factor
-    for word, column in vectorizer2.vocabulary_.items():
-        factor = float(senticon[word])
-        X_sents_train[:, column] = X_sents_train[:, column] * factor
-        X_sents_test[:, column] = X_sents_test[:, column] * factor
+    # for word, column in vectorizer2.vocabulary_.items():
+    #     factor = float(senticon[word])
+    #     X_sents_train[:, column] = X_sents_train[:, column] * factor
+    #     X_sents_test[:, column] = X_sents_test[:, column] * factor
 
-    # Apply feature weights
-    X_train = X_train * weights[0]
-    X_test = X_test * weights[0]
-
-    X_hashtags_train = X_hashtags_train * weights[1]
-    X_hashtags_test = X_hashtags_test * weights[1]
-
-    X_mentions_train = X_mentions_train * weights[2]
-    X_mentions_test = X_mentions_test * weights[2]
-
-    n_hashtags_total_train = n_hashtags_total_train * weights[3]
-    n_hashtags_total_test = n_hashtags_total_test * weights[3]
-
-    n_mentions_total_train = n_mentions_total_train * weights[4]
-    n_mentions_total_test = n_mentions_total_test * weights[4]
-
-    n_positive_words_total_train = n_positive_words_total_train * weights[5]
-    n_positive_words_total_test = n_positive_words_total_test * weights[5]
-
-    n_negative_words_total_train = n_negative_words_total_train * weights[6]
-    n_negative_words_total_test = n_negative_words_total_test * weights[6]
-
-    X_sents_train = X_sents_train * weights[7]
-    X_sents_test = X_sents_test * weights[7]
 
     # Merge features
-    X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train, X_sents_train), axis=1)
+    # X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train, X_sents_train), axis=1)
+    X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train), axis=1)
 
-    X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test, X_sents_test), axis=1)
+    # X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test, X_sents_test), axis=1)
+    X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test), axis=1)
 
     # Add extra features
-    X_train = np.c_[X_train, n_hashtags_total_train, n_mentions_total_train,
+    X_train = np.c_[X_train, sent_final_factors_train, n_hashtags_total_train, n_mentions_total_train,
                     n_positive_words_total_train, n_negative_words_total_train]
-    X_test = np.c_[X_test, n_hashtags_total_test, n_mentions_total_test,
+    X_test = np.c_[X_test, sent_final_factors_test, n_hashtags_total_test, n_mentions_total_test,
                    n_positive_words_total_test, n_negative_words_total_test]
 
     return X_train, X_test, Y_train, Y_test, true_y, total_vocabulary, total_idf

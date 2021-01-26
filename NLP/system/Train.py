@@ -20,11 +20,18 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
             ml_senticon = parse_ml_senticon(path_to_sentiments)
             load_ml_senticon(ml_senticon)
 
-        corpus_es, ground_truth_es, ground_truth_es_neutrals, total_ground_truth_es = parse_corpus_and_gt(path_to_corpus_es, path_to_gt_es)
-        #X_train, X_test, Y_train, Y_test, true_y, vocabulary = preprocess(corpus_es, ground_truth_es, weights,
-        #                                                                   path_to_vocabulary)
-        X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, total_ground_truth_es, weights,
-                                                                           path_to_vocabulary)
+        corpus_es, _, _, total_ground_truth_es = parse_corpus_and_gt(
+            join(path_to_corpus_es, "es.xml"), join(path_to_gt_es, "truth-es.txt"))
+        corpus_ca, _, _, total_ground_truth_ca = parse_corpus_and_gt(
+            join(path_to_corpus_es, "ca.xml"), join(path_to_gt_es, "truth-ca.txt")
+        )
+        corpus_es.update(corpus_ca)
+        total_ground_truth_es.update(total_ground_truth_ca)
+        ground_truth_list = []
+        for key, value in total_ground_truth_es.items():
+            ground_truth_list.append({key: value})
+        X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, ground_truth_list,
+                                                                               weights, path_to_vocabulary)
 
 
     elif x_train_path and y_train_path:
