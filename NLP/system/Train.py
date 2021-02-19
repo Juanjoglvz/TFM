@@ -11,6 +11,7 @@ from sklearn.svm import SVC
 from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle, load_ml_senticon
 from NLP.system.Parse_xml import parse_corpus_and_gt, parse_ml_senticon
 
+
 def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sentiments, weights,
               x_train_path, y_train_path, x_test_path, y_test_path, path_to_neutrals, path_to_vocabulary):
 
@@ -32,7 +33,6 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
             ground_truth_list.append({key: value})
         X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, ground_truth_list,
                                                                                weights, path_to_vocabulary)
-
 
     elif x_train_path and y_train_path:
         print("Reading data from {}".format(x_train_path))

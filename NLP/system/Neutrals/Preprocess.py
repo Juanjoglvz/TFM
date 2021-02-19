@@ -4,6 +4,7 @@ import numpy as np
 import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.model_selection import StratifiedShuffleSplit
+from sentiment_analysis_spanish import sentiment_analysis
 
 from NLP.system.TweetMotifTokenizer import tokenize
 
@@ -11,7 +12,6 @@ from NLP.system.TweetMotifTokenizer import tokenize
 positive_words_es = []
 negative_words_es = []
 senticon = {}
-
 
 
 # Helper functions
@@ -70,33 +70,33 @@ def load_vocabularies(path):
 
 
 # Preprocess
-def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
+def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
     print("Starting the preprocessing")
     preprocessed_corpus = []
     true_y = []
     hashtags_total = []
     mentions_total = []
     sent_final_factors = []
+    sent_factors_library = []
     n_hashtags_total = []
     n_mentions_total = []
     n_positive_words_total = []
     n_negative_words_total = []
+    language = []
 
     lemmatizer = spacy.load("es_core_news_sm")
-
-    # Weights for features in this order:
-    # BOW, BOH, BOM, n_hashtags, n_mentions, n_pos, n_neg, sents
-    if weights is None:
-        weights = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-
+    sentiment_analyzer = sentiment_analysis.SentimentAnalysisSpanish()
+    i = 0
     for item in ground_truth:
-    #for identifier in ["e079379e7b64ca8b52e58d87bebd36f9", "6f510b6acc3fab195959d88db9ee34a5", "ad88732860e9e8f2f7533a9b331d9eb9", "80f85f7fd8e3858b774b9cafbb701ce1", "6696259fb7704bc2072b696adc10ea5f", "91d9d568b6f08af5264fbe52bc849f88"]:
+        # for identifier in ["e079379e7b64ca8b52e58d87bebd36f9", "6f510b6acc3fab195959d88db9ee34a5", "ad88732860e9e8f2f7533a9b331d9eb9", "80f85f7fd8e3858b774b9cafbb701ce1", "6696259fb7704bc2072b696adc10ea5f", "91d9d568b6f08af5264fbe52bc849f88"]:
         identifier = list(item.keys())[0]
         gt = item[identifier]
         doc = corpus[identifier]
+        sent_library = (sentiment_analyzer.sentiment(doc) * 2) - 1
+        i += 1
         hashtags = []
         mentions = []
-        sents = []
+
         n_hashtags = 0
         n_mentions = 0
         n_positive_words = 0
@@ -164,6 +164,7 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         # sents_total.append(preprocessed_sents_text)
         # Append sent factor features
         sent_final_factors.append(final_factor)
+        sent_factors_library.append(sent_library)
 
         # Append Ground truth
         true_y.append(gt)
@@ -172,6 +173,8 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         n_mentions_total.append(n_mentions)
         n_positive_words_total.append(n_positive_words)
         n_negative_words_total.append(n_negative_words)
+        language.append(0 if n_spanish > 0 else 1)
+        n_spanish -= 1
 
     print("Iteration finished")
 
@@ -181,11 +184,13 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     mentions_total = np.array(mentions_total)
     # sents_total = np.array(sents_total)
     sent_final_factors = np.array(sent_final_factors)
+    sent_factors_library = np.array(sent_factors_library)
     true_y = np.array(true_y)
     n_mentions_total = np.array(n_mentions_total)
     n_hashtags_total = np.array(n_hashtags_total)
     n_negative_words_total = np.array(n_negative_words_total)
     n_positive_words_total = np.array(n_positive_words_total)
+    language = np.array(language)
 
     # Split train and test
     splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
@@ -202,12 +207,15 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
         # Extra features
         sent_final_factors_train, sent_final_factors_test = sent_final_factors[train_index], \
                                                             sent_final_factors[test_index]
+        sent_factors_library_train, sent_factors_library_test = sent_factors_library[train_index], \
+                                                                sent_factors_library[test_index]
         n_mentions_total_train, n_mentions_total_test = n_mentions_total[train_index], n_mentions_total[test_index]
         n_hashtags_total_train, n_hashtags_total_test = n_hashtags_total[train_index], n_hashtags_total[test_index]
         n_positive_words_total_train, n_positive_words_total_test = \
             n_positive_words_total[train_index], n_positive_words_total[test_index]
         n_negative_words_total_train, n_negative_words_total_test = \
             n_negative_words_total[train_index], n_negative_words_total[test_index]
+        language_train, language_test = language[train_index], language[test_index]
 
     # Get BOW, BOH, BOM
     if path_to_vocabulary:
@@ -241,13 +249,11 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     # X_sents_test = vectorizer2.transform(X_sents_test).toarray()
     # total_vocabulary.append(vectorizer2.vocabulary_)
 
-
     # Add sentiment factor
     # for word, column in vectorizer2.vocabulary_.items():
     #     factor = float(senticon[word])
     #     X_sents_train[:, column] = X_sents_train[:, column] * factor
     #     X_sents_test[:, column] = X_sents_test[:, column] * factor
-
 
     # Merge features
     # X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train, X_sents_train), axis=1)
@@ -257,9 +263,11 @@ def preprocess(corpus, ground_truth, weights, path_to_vocabulary):
     X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test), axis=1)
 
     # Add extra features
-    X_train = np.c_[X_train, sent_final_factors_train, n_hashtags_total_train, n_mentions_total_train,
-                    n_positive_words_total_train, n_negative_words_total_train]
-    X_test = np.c_[X_test, sent_final_factors_test, n_hashtags_total_test, n_mentions_total_test,
-                   n_positive_words_total_test, n_negative_words_total_test]
+    X_train = np.c_[X_train, sent_final_factors_train, sent_factors_library_train,
+                    n_hashtags_total_train, n_mentions_total_train,
+                    n_positive_words_total_train, n_negative_words_total_train, language_train]
+    X_test = np.c_[X_test, sent_final_factors_test, sent_factors_library_test,
+                   n_hashtags_total_test, n_mentions_total_test,
+                   n_positive_words_total_test, n_negative_words_total_test, language_test]
 
     return X_train, X_test, Y_train, Y_test, true_y, total_vocabulary, total_idf

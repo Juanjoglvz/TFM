@@ -1,0 +1,8 @@
+				Favor	Neutral	Against
+Favor				1083	6	60
+Neutral				39	235	16
+Against				74	1	306
+Macro F1: 0.8697410031994953
+SVC(C=1, kernel='linear', max_iter=100000, probability=True)
+saving model and data
+Saved
