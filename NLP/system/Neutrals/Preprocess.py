@@ -2,7 +2,7 @@ from os.path import join
 
 import numpy as np
 import spacy
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import StratifiedShuffleSplit
 from sentiment_analysis_spanish import sentiment_analysis
 
@@ -11,7 +11,10 @@ from NLP.system.TweetMotifTokenizer import tokenize
 # Global variables
 positive_words_es = []
 negative_words_es = []
-senticon = {}
+positive_words_ca = []
+negative_words_ca = []
+senticon_es = {}
+senticon_ca = {}
 
 
 # Helper functions
@@ -32,29 +35,51 @@ def load_kaggle(path):
     with open(join(path, "negative_words_es.txt"), "r") as f:
         for line in f.readlines():
             negative_words_es.append(line.rstrip())
-    return positive_words_es, negative_words_es
+    with open(join(path, "positive_words_ca.txt"), "r") as f:
+        for line in f.readlines():
+            positive_words_ca.append(line.rstrip())
+    with open(join(path, "negative_words_ca.txt"), "r") as f:
+        for line in f.readlines():
+            negative_words_ca.append(line.rstrip())
+    return positive_words_es, negative_words_es, positive_words_ca, negative_words_ca
 
 
-def load_ml_senticon(ml_senticon):
-    global senticon
-    senticon = ml_senticon
-    return ml_senticon
+def load_ml_senticon(ml_senticon_es, ml_senticon_ca):
+    global senticon_es
+    global senticon_ca
+    senticon_es = ml_senticon_es
+    senticon_ca = ml_senticon_ca
+    return senticon_es, senticon_ca
 
 
-def is_polarized_kaggle(word):
-    global positive_words_es
-    global negative_words_es
-    if word in positive_words_es:
-        return 1
-    elif word in negative_words_es:
-        return -1
+def is_polarized_kaggle(word, language):
+    if language == 0:
+        global positive_words_es
+        global negative_words_es
+        if word in positive_words_es:
+            return 1
+        elif word in negative_words_es:
+            return -1
+        else:
+            return 0
     else:
-        return 0
+        global positive_words_ca
+        global negative_words_ca
+        if word in positive_words_ca:
+            return 1
+        elif word in negative_words_ca:
+            return -1
+        else:
+            return 0
 
 
-def get_factor_ml_senticon(word):
-    global senticon
-    return senticon[word]
+def get_factor_ml_senticon(word, language):
+    if language == 0:
+        global senticon_es
+        return senticon_es[word]
+    else:
+        global senticon_ca
+        return senticon_ca[word]
 
 
 def load_vocabularies(path):
@@ -96,6 +121,7 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
         i += 1
         hashtags = []
         mentions = []
+        current_lan = 0 if n_spanish > 0 else 1
 
         n_hashtags = 0
         n_mentions = 0
@@ -119,9 +145,9 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
                 mentions.append(token)
             # Normal word (and punctuations)
             else:
-                if is_polarized_kaggle(token) == 1:
+                if is_polarized_kaggle(token, current_lan) == 1:
                     n_positive_words += 1
-                elif is_polarized_kaggle(token) == -1:
+                elif is_polarized_kaggle(token, current_lan) == -1:
                     n_negative_words += 1
                 new_tokens.append(token)
 
@@ -136,10 +162,14 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
         factors = []
         for t in tokens:
             preprocessed_text += t + " "
-        for l in lemmatizer(preprocessed_text):
-            if l.lemma_ in senticon.keys():
-                factors.append(float(senticon[l.lemma_]))
-            new_tokens.append(l.lemma_)
+        for lem in lemmatizer(preprocessed_text):
+            if current_lan == 0:
+                if lem.lemma_ in senticon_es.keys():
+                    factors.append(float(senticon_es[lem.lemma_]))
+            elif current_lan == 1:
+                if lem.lemma_ in senticon_ca.keys():
+                    factors.append(float(senticon_ca[lem.lemma_]))
+            new_tokens.append(lem.lemma_)
         tokens = new_tokens
         final_factor = sum(factors)
         # convert to text
@@ -173,7 +203,7 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
         n_mentions_total.append(n_mentions)
         n_positive_words_total.append(n_positive_words)
         n_negative_words_total.append(n_negative_words)
-        language.append(0 if n_spanish > 0 else 1)
+        language.append(current_lan)
         n_spanish -= 1
 
     print("Iteration finished")

@@ -55,11 +55,11 @@ def parse_corpus_and_gt(file, truth):
     return corpus, None
 
 
-def parse_ml_senticon(path):
+def parse_ml_senticon(path, lan):
     print("Loading ML_senticon lexicon")
     ret = {}
 
-    tree = ET.parse(join(path, "senticon.es.xml"))
+    tree = ET.parse(join(path, f"senticon.{lan}.xml"))
     root = tree.getroot()
     #stemmer = SnowballStemmer('spanish')
     for layer in root.iter("layer"):

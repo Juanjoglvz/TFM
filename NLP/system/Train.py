@@ -26,13 +26,14 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
         corpus_ca, _, _, total_ground_truth_ca = parse_corpus_and_gt(
             join(path_to_corpus_es, "ca.xml"), join(path_to_gt_es, "truth-ca.txt")
         )
+        n_spanish = len(total_ground_truth_es)
         corpus_es.update(corpus_ca)
         total_ground_truth_es.update(total_ground_truth_ca)
         ground_truth_list = []
         for key, value in total_ground_truth_es.items():
             ground_truth_list.append({key: value})
         X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, ground_truth_list,
-                                                                               weights, path_to_vocabulary)
+                                                                               n_spanish, path_to_vocabulary)
 
     elif x_train_path and y_train_path:
         print("Reading data from {}".format(x_train_path))
