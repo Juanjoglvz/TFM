@@ -18,8 +18,9 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
     if path_to_corpus_es and path_to_gt_es:
         if path_to_sentiments:
             load_kaggle(path_to_sentiments)
-            ml_senticon = parse_ml_senticon(path_to_sentiments)
-            load_ml_senticon(ml_senticon)
+            ml_senticon_es = parse_ml_senticon(path_to_sentiments, "es")
+            ml_senticon_ca = parse_ml_senticon(path_to_sentiments, "ca")
+            load_ml_senticon(ml_senticon_es, ml_senticon_ca)
 
         corpus_es, _, _, total_ground_truth_es = parse_corpus_and_gt(
             join(path_to_corpus_es, "es.xml"), join(path_to_gt_es, "truth-es.txt"))
