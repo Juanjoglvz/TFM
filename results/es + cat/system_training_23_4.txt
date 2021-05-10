@@ -1,0 +1,10 @@
+Starting the training
+SVM 1
+				Favor	Neutral	Against
+Favor			1075	5	69
+Neutral				29	245	16
+Against				71	3	307
+Macro F1: 0.8739436953087191
+SVC(C=1, kernel='linear', max_iter=100000, probability=True)
+saving model and data
+Saved

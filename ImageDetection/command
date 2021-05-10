@@ -1,2 +1,0 @@
-python train_frcnn.py -p "path/to/labels" -o simple --network "vgg" --num_epochs "100" --config_filename "/home/juanjo/Desktop/TFM/ImageDetection/cosa"   
-

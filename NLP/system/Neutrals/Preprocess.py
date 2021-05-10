@@ -22,6 +22,12 @@ senticon_ca = {}
 def is_exception(ch):
     if ch[0] == "#" or ch[0] == "@":
         return True
+    # elif ch == "!" or ch[-1] == -1:
+    #     return True
+    # elif ch == "?" or ch[-1] == -1:
+    #     return True
+    # elif ch == "*":
+    #     return True
     else:
         return False
 
