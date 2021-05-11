@@ -25,7 +25,7 @@ def main():
                 detections = detector.detectObjectsFromImage(input_image=os.path.join(root, file),
                                                              output_image_path=os.path.join(PATH_TO_OUTPUT_IMAGES_DIR,
                                                                                             f"{file_id}_output.{file_ext}"),
-                                                             minimum_percentage_probability=20)
+                                                             minimum_percentage_probability=50)
                 with open(os.path.join(PATH_TO_OUTPUT_LABELS_DIR, f"{file_id}_label.txt"), "w+") as f:
                     for eachObject in detections:
                         f.write(f"{eachObject['name']}:{eachObject['percentage_probability']}\n")
