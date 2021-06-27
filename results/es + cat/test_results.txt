@@ -1,0 +1,51 @@
+Spanish:
+
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Neutrals classifier
+				Not neutral	Neutral
+Not neutral			689	4
+Neutral				37	157
+Macro F1: 0.6185378184067997
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+D:\Anaconda\lib\site-packages\sklearn\metrics\_classification.py:1464: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 in labels with no true nor predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(
+Starting the preprocessing
+Iteration finished
+Polar classifier
+				Favor	Neutral	Against
+Favor			312	1	23
+Neutral				20	157	17
+Against				14	3	340
+Macro F1: 0.9073741613686144
+
+Process finished with exit code 0
+
+
+Catalan:
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+Starting the preprocessing
+Iteration finished
+Neutrals classifier
+				Not neutral	Neutral
+Not neutral			837	3
+Neutral				16	80
+Macro F1: 0.6275440223243699
+Loading kaggle positive/negative words
+Loading ML_senticon lexicon
+D:\Anaconda\lib\site-packages\sklearn\metrics\_classification.py:1464: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 in labels with no true nor predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(
+Starting the preprocessing
+Iteration finished
+Polar classifier
+				Favor	Neutral	Against
+Favor			811	3	2
+Neutral				14	80	2
+Against				8	0	16
+Macro F1: 0.8682513053809692
+
+Process finished with exit code 0

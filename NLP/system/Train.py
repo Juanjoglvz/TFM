@@ -8,7 +8,7 @@ from sklearn.ensemble import BaggingClassifier
 from sklearn.metrics import f1_score, confusion_matrix
 from sklearn.svm import SVC
 
-from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle, load_ml_senticon
+from NLP.system.Neutrals.Preprocess import preprocess, load_kaggle, load_ml_senticon, init_photo_labels
 from NLP.system.Parse_xml import parse_corpus_and_gt, parse_ml_senticon
 
 
@@ -22,9 +22,9 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
             ml_senticon_ca = parse_ml_senticon(path_to_sentiments, "ca")
             load_ml_senticon(ml_senticon_es, ml_senticon_ca)
 
-        corpus_es, _, _, total_ground_truth_es = parse_corpus_and_gt(
+        corpus_es, _, _, total_ground_truth_es, photos_es = parse_corpus_and_gt(
             join(path_to_corpus_es, "es.xml"), join(path_to_gt_es, "truth-es.txt"))
-        corpus_ca, _, _, total_ground_truth_ca = parse_corpus_and_gt(
+        corpus_ca, _, _, total_ground_truth_ca, photos_ca = parse_corpus_and_gt(
             join(path_to_corpus_es, "ca.xml"), join(path_to_gt_es, "truth-ca.txt")
         )
         n_spanish = len(total_ground_truth_es)
@@ -33,8 +33,10 @@ def train_svc(path_to_corpus_es, path_to_gt_es, path_to_save_model, path_to_sent
         ground_truth_list = []
         for key, value in total_ground_truth_es.items():
             ground_truth_list.append({key: value})
+        photos_es.update(photos_ca)
+        init_photo_labels("F:\\MultiStanceCat-IberEval-training-20180404\\output_labels")
         X_train, X_test, Y_train, Y_test, true_y, vocabulary, idf = preprocess(corpus_es, ground_truth_list,
-                                                                               n_spanish, path_to_vocabulary)
+                                                                               n_spanish, path_to_vocabulary, photos_es)
 
     elif x_train_path and y_train_path:
         print("Reading data from {}".format(x_train_path))

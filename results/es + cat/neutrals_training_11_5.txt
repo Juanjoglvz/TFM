@@ -1,0 +1,6 @@
+Bagging
+				Not neutral	Neutral
+Not neutral			1491	39
+Neutral				145	145
+Macro F1: 0.7768484237854205
+BaggingClassifier(base_estimator=LinearSVC(max_iter=100000), n_estimators=20)

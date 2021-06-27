@@ -4,9 +4,10 @@ from os.path import join
 from nltk.stem import SnowballStemmer
 
 
-def parse_corpus_and_gt(file, truth):
+def parse_corpus_and_gt(file, truth, photos=False):
     with_truth = True if truth else False
     corpus = {}
+    photos = {}
 
     tree = ET.parse(file)
     root = tree.getroot()
@@ -29,6 +30,10 @@ def parse_corpus_and_gt(file, truth):
             final_text += next.text
 
         corpus[id] = final_text
+        current_photos = []
+        for photo in doc.find("photos"):
+            current_photos.append(photo.text.split(".")[0])
+        photos[id] = current_photos
 
     if with_truth:
         ground_truth = {}
@@ -51,8 +56,9 @@ def parse_corpus_and_gt(file, truth):
                     ground_truth_neutrals[line[0]] = 0
                     total_ground_truth[line[0]] = 2
 
-        return corpus, ground_truth, ground_truth_neutrals, total_ground_truth
-    return corpus, None
+        return corpus, ground_truth, ground_truth_neutrals, total_ground_truth, photos
+    else:
+        return corpus, None, None, None, photos
 
 
 def parse_ml_senticon(path, lan):
@@ -61,13 +67,13 @@ def parse_ml_senticon(path, lan):
 
     tree = ET.parse(join(path, f"senticon.{lan}.xml"))
     root = tree.getroot()
-    #stemmer = SnowballStemmer('spanish')
+    # stemmer = SnowballStemmer('spanish')
     for layer in root.iter("layer"):
         for lemma in layer.iter("lemma"):
             word = lemma.text
             if "_" not in word:
                 word = word.lstrip().rstrip()
-                #word = stemmer.stem(word)
+                # word = stemmer.stem(word)
                 polarity = lemma.attrib["pol"]
                 ret[word] = polarity
     return ret

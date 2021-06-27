@@ -1,8 +1,9 @@
+import os
 from os.path import join
 
 import numpy as np
 import spacy
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.model_selection import StratifiedShuffleSplit
 from sentiment_analysis_spanish import sentiment_analysis
 
@@ -15,6 +16,7 @@ positive_words_ca = []
 negative_words_ca = []
 senticon_es = {}
 senticon_ca = {}
+photos = {}
 
 
 # Helper functions
@@ -90,18 +92,36 @@ def get_factor_ml_senticon(word, language):
 
 def load_vocabularies(path):
     retval = []
-    for i in range(3):
+    for i in range(4):
         voc = {}
         with open(join(path, "vocabulary{}.csv".format(i)), "r") as f:
             for line in f.readlines():
                 line = line.split(", ")
                 voc[line[0]] = int(line[1])
             retval.append(voc)
-    return retval[0], retval[1], retval[2]
+    return retval[0], retval[1], retval[2], retval[3]
+
+
+def init_photo_labels(path):
+    global photos
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            file_id = file.split("_")[0]
+            found_classes = []
+            with open(os.path.join(root, file), "r") as f:
+                for line in f.readlines():
+                    label_class, label_prob = line.split(":")
+                    found_classes.append(label_class)
+            photos[file_id] = found_classes
+
+
+def get_classes_from_photo(photo_id):
+    global photos
+    return photos[photo_id]
 
 
 # Preprocess
-def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
+def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary, corpus_photos):
     print("Starting the preprocessing")
     preprocessed_corpus = []
     true_y = []
@@ -114,6 +134,7 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
     n_positive_words_total = []
     n_negative_words_total = []
     language = []
+    photos_detections = []
 
     lemmatizer = spacy.load("es_core_news_sm")
     sentiment_analyzer = sentiment_analysis.SentimentAnalysisSpanish()
@@ -212,6 +233,18 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
         language.append(current_lan)
         n_spanish -= 1
 
+        # Object detection
+        detections = ""
+        current_doc_photos = corpus_photos[identifier]
+        for context_photo in current_doc_photos:
+            try:
+                photo_detections = get_classes_from_photo(context_photo)
+                detections += " ".join(photo_detections)
+                detections += " "
+            except KeyError as e:
+                pass
+        photos_detections.append(detections)
+
     print("Iteration finished")
 
     # Convert to numpy array
@@ -227,9 +260,10 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
     n_negative_words_total = np.array(n_negative_words_total)
     n_positive_words_total = np.array(n_positive_words_total)
     language = np.array(language)
+    photos_detections = np.array(photos_detections)
 
     # Split train and test
-    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2)
+    splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=7)
     for train_index, test_index in splitter.split(preprocessed_corpus, true_y):
         # Data
         X_train, X_test = preprocessed_corpus[train_index], preprocessed_corpus[test_index]
@@ -253,13 +287,18 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
             n_negative_words_total[train_index], n_negative_words_total[test_index]
         language_train, language_test = language[train_index], language[test_index]
 
+        # Image Detection
+        photos_detections_train, photos_detections_test = photos_detections[train_index], photos_detections[test_index]
+
     # Get BOW, BOH, BOM
     if path_to_vocabulary:
-        vocabulary0, vocabulary1, vocabulary2 = load_vocabularies(path_to_vocabulary)
+        vocabulary0, vocabulary1, vocabulary2, vocabulary3 = load_vocabularies(path_to_vocabulary)
     else:
         vocabulary0 = None
         vocabulary1 = None
         vocabulary2 = None
+        vocabulary3 = None
+
     total_vocabulary = []
     total_idf = []
     vectorizer = TfidfVectorizer(vocabulary=vocabulary0)
@@ -280,6 +319,11 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
     total_vocabulary.append(vectorizer.vocabulary_)
     total_idf.append(vectorizer.idf_)
 
+    vectorizer = CountVectorizer(vocabulary=vocabulary3)
+    X_photo_detections_train = vectorizer.fit_transform(photos_detections_train).toarray()
+    X_photo_detections_test = vectorizer.transform(photos_detections_test).toarray()
+    total_vocabulary.append(vectorizer.vocabulary_)
+
     # vectorizer2 = CountVectorizer(vocabulary=vocabulary3)
     # X_sents_train = vectorizer2.fit_transform(X_sents_train).toarray()
     # X_sents_test = vectorizer2.transform(X_sents_test).toarray()
@@ -293,10 +337,10 @@ def preprocess(corpus, ground_truth, n_spanish, path_to_vocabulary):
 
     # Merge features
     # X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train, X_sents_train), axis=1)
-    X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train), axis=1)
+    X_train = np.concatenate((X_train, X_hashtags_train, X_mentions_train, X_photo_detections_train), axis=1)
 
     # X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test, X_sents_test), axis=1)
-    X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test), axis=1)
+    X_test = np.concatenate((X_test, X_hashtags_test, X_mentions_test, X_photo_detections_test), axis=1)
 
     # Add extra features
     X_train = np.c_[X_train, sent_final_factors_train, sent_factors_library_train,
